@@ -1,0 +1,374 @@
+{
+  "proper_news_article": {
+    "text": "Is the article a proper news article? (e.g. not a podcast or video)",
+    "type": "binary"
+  },
+  "broadly_climate_change": {
+    "text": "Is the article broadly about climate change?",
+    "type": "binary"
+  },
+  "mainly_climate_change": {
+    "text": "Is the article mainly about climate change?",
+    "type": "binary"
+  },
+  "type_of_article": {
+    "text": "What type of article is it? Answer only with an integer: 0=”Report”; 1=”Interview”; 2=”Opinion piece”; 3=”Newsletter”; 4=”Letters to the editor”",
+    "type": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ]
+  },
+  "extent_climate_change": {
+    "text": "To what extent is this article about climate change? Answer only with an integer: 0=”Not about climate change”; 1=”Somewhat about climate change”; 2=”Mostly about climate change”",
+    "type": [
+      0,
+      1,
+      2
+    ]
+  },
+  "issue_climate_change": {
+    "text": "To what extent does this article focus on the issue of climate change? 0=”Not at all (The article does not mention or address climate change in any way)”; 1=”Slightly (The article briefly mentions climate change but does not provide significant discussion or details)”; 2=”Moderately (The article includes climate change as one of several topics, with some discussion but not in-depth focus)”; 3=”Considerably (The article focuses mainly on climate change)”",
+    "type": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "percentage_climate_change": {
+    "text": "What percentage of the text is about climate change or topics related to climate change? Respond with a percentage between 0% and 100% rounded to tens of percentages (e.g., \"10%\", \"60%\", \"100%\").",
+    "type": [
+      "0%",
+      "10%",
+      "20%",
+      "30%",
+      "40%",
+      "50%",
+      "60%",
+      "70%",
+      "80%",
+      "90%",
+      "100%"
+    ]
+  },
+  "informative_climate_change": {
+    "text": "Overall, how informative would you rate this article about climate change? Answer only with an integer: 0=”Not informative at all”; 1=”Slightly informative”; 2=”Moderately informative”; 3=”Very informative”, 4=”Extremely informative”",
+    "type": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  "general_causes": {
+    "text": "Does the article mention or imply causes of climate change?",
+    "type": "binary"
+  },
+  "general_impacts": {
+    "text": "Does the article mention or imply negative impacts from climate change?",
+    "type": "binary"
+  },
+  "general_mitigation": {
+    "text": "Does the article mention or imply issues related to mitigating climate change?",
+    "type": "binary"
+  },
+  "general_adaptation": {
+    "text": "Does the article mention or imply issues related to adapting to the consequences of climate change?",
+    "type": "binary"
+  },
+  "general_loss_and_damage": {
+    "text": "Does the article mention or imply richer nations should compensate poorer nations for damages due to climate change?",
+    "type": "binary"
+  },
+  "general_inadequate_government_plans": {
+    "text": "Does the article mention or imply that government plans are insufficient to address climate change?",
+    "type": "binary"
+  },
+  "causes_human": {
+    "text": "Does the article mention or imply that climate change is caused by human activities?",
+    "type": "binary"
+  },
+  "causes_fossil_fuels": {
+    "text": "Does the article mention or imply that climate change is caused by fossil fuels?",
+    "type": "binary"
+  },
+  "causes_agriculture": {
+    "text": "Does the article mention or imply that climate change is caused by the current agricultural system or diets?",
+    "type": "binary"
+  },
+  "causes_affluent_footprint": {
+    "text": "Does the article mention or imply large inequalities in people's carbon footprint?",
+    "type": "binary"
+  },
+  "causes_superrich_footprint": {
+    "text": "Does the article mention or imply the outsized carbon footprint of the super rich?",
+    "type": "binary"
+  },
+  "causes_dev_countries_contrib": {
+    "text": "Does the article mention or imply that developed countries have historically contributed more to climate change than developing countries?",
+    "type": "binary"
+  },
+  "causes_overconsumption": {
+    "text": "Does the article mention or imply that climate change is driven by consumption levels or resource use that exceed what is necessary for a decent, sufficient standard of living (examples are luxury emissions or wasteful practices by individuals, businesses, or societies)?",
+    "type": "binary"
+  },
+  "causes_economic_system": {
+    "text": "Does the article mention or imply that climate change is caused by the growth imperative and/or the profit motive of current economic systems?",
+    "type": "binary"
+  },
+  "causes_population_growth": {
+    "text": "Does the article mention or imply that climate change is caused by population growth or demographic trends?",
+    "type": "binary"
+  },
+  "causes_consumerism": {
+    "text": "Does the article mention or imply that climate change is caused by consumerism, advertising, or cultural norms around consumption?",
+    "type": "binary"
+  },
+  "impact_adverse": {
+    "text": "Does the article mention or imply that we are already seeing adverse impacts of climate change?",
+    "type": "binary"
+  },
+  "impact_science_threat": {
+    "text": "Does the article mention or imply that more recent science indicates that the threat from climate change is greater than previously believed?",
+    "type": "binary"
+  },
+  "impact_extreme_weather": {
+    "text": "Does the article mention or imply frequent or more intense extreme weather events (e.g., heatwaves, hurricanes, droughts, floods, or wildfires)?",
+    "type": "binary"
+  },
+  "impact_sea_level_rise": {
+    "text": "Does the article mention or imply sea level rise?",
+    "type": "binary"
+  },
+  "impact_biodiversity_loss": {
+    "text": "Does the article mention or imply biodiversity loss or the extinction of species?",
+    "type": "binary"
+  },
+  "impact_food_water_security": {
+    "text": "Does the article mention or imply decreased food or water security?",
+    "type": "binary"
+  },
+  "impact_vulnerable_disproportionate": {
+    "text": "Does the article mention or imply that poor people are disproportionately affected by climate change?",
+    "type": "binary"
+  },
+  "impact_migration": {
+    "text": "Does the article mention or imply human displacement or migration?",
+    "type": "binary"
+  },
+  "mitigation_net_zero": {
+    "text": "Does the article mention net zero carbon or greenhouse gas emissions?",
+    "type": "binary"
+  },
+  "mitigation_reduction_fossil": {
+    "text": "Does the article mention or imply a reduction of fossil fuels use?",
+    "type": "binary"
+  },
+  "mitigation_renewable_energy": {
+    "text": "Does the article mention or imply renewable energy sources, such as from solar, wind, and hydropower?",
+    "type": "binary"
+  },
+  "mitigation_diets_livestock": {
+    "text": "Does the article mention or imply a shift to primarily vegan or vegetarian diets or reduction of livestock farming?",
+    "type": "binary"
+  },
+  "mitigation_electrification": {
+    "text": "Does the article mention or imply increased electrification in transport (e.g., electric vehicles), buildings (e.g., heat pumps), or industry (e.g., electric arc furnaces for steelmaking) ?",
+    "type": "binary"
+  },
+  "mitigation_insulation": {
+    "text": "Does the article mention or imply better insulation?",
+    "type": "binary"
+  },
+  "mitigation_industrial_processes": {
+    "text": "Does the article mention or imply more efficient industrial processes?",
+    "type": "binary"
+  },
+  "mitigation_reduce_flying": {
+    "text": "Does the article mention or imply a reduction in the amount of flying?",
+    "type": "binary"
+  },
+  "mitigation_reduce_fossil_fuel_subsidies": {
+    "text": "Does the article mention or imply a reduction in fossil fuel subsidies and/or that they are significant?",
+    "type": "binary"
+  },
+  "mitigation_carbon_tax": {
+    "text": "Does the article mention or imply a carbon tax or cap-and-trade systems?",
+    "type": "binary"
+  },
+  "mitigation_behavior_change": {
+    "text": "Does the article mention or imply behavioral changes such as reducing consumption or/and lifestyle changes?",
+    "type": "binary"
+  },
+  "mitigation_transport": {
+    "text": "Does the article mention or imply a reduction in transport?",
+    "type": "binary"
+  },
+  "mitigation_ghg_still_rising": {
+    "text": "Does the article mention or imply that greenhouse gas emissions are still rising?",
+    "type": "binary"
+  },
+  "mitigation_ipcc_scenarios": {
+    "text": "Does the article mention or imply future scenarios of climate change produced by the IPCC?",
+    "type": "binary"
+  },
+  "mitigation_negative_emissions": {
+    "text": "Does the article mention or imply negative emissions technologies?",
+    "type": "binary"
+  },
+  "mitigation_financing_gap": {
+    "text": "Does the article mention or imply substantially the need for increased climate financing?",
+    "type": "binary"
+  },
+  "mitigation_geoengineering": {
+    "text": "Does the article mention or imply geoengineering as a response to climate change?",
+    "type": "binary"
+  },
+  "mitigation_nuclear": {
+    "text": "Does the article mention or imply nuclear energy as a way to mitigate climate change?",
+    "type": "binary"
+  },
+  "mitigation_international_agreements": {
+    "text": "Does the article mention or imply international climate agreements?",
+    "type": "binary"
+  },
+  "mitigation_cheaper_than_adaptation": {
+    "text": "Does the article mention or imply that climate change mitigation measures are likely to be significantly cheaper than adaptation measures?",
+    "type": "binary"
+  },
+  "adaptation_sustainable_agriculture": {
+    "text": "Does the article mention or imply sustainable agriculture (e.g., organic farming, wetland/soil restoration, reduced fertilizer use)?",
+    "type": "binary"
+  },
+  "adaptation_infrastructure_resilience": {
+    "text": "Does the article mention or imply that infrastructure needs to be redesigned (e.g., flood defenses, heat-resistant buildings, urban planning)?",
+    "type": "binary"
+  },
+  "adaptation_urban_climate_resilience": {
+    "text": "Does the article mention or imply that urban areas need to be redesigned or retrofitted (e.g., green spaces for cooling, stormwater management, climate-resilient housing)?",
+    "type": "binary"
+  },
+  "adaptation_agriculture_resilience": {
+    "text": "Does the article mention or imply that agriculture needs to be made climate-resilient (e.g., innovations in crop varieties, farming techniques)?",
+    "type": "binary"
+  },
+  "adaptation_ecosystem_restoration": {
+    "text": "Does the article mention or imply the protection and/or restoration of natural ecosystems?",
+    "type": "binary"
+  },
+  "adaptation_human_migration": {
+    "text": "Does the article mention or imply adapting to increased human migration or displacement (e.g., climate refugees, relocation of communities due to sea-level rise or desertification)?",
+    "type": "binary"
+  },
+  "adaptation_public_health": {
+    "text": "Does the article mention or imply that public health systems need to be strengthened?",
+    "type": "binary"
+  },
+  "adaptation_disaster_preparedness": {
+    "text": "Does the article mention or imply the need for improved disaster preparedness and/or early warning systems?",
+    "type": "binary"
+  },
+  "adaptation_social_resilience": {
+    "text": "Does the article mention or imply building social resilience (e.g., strengthening community networks, fostering local adaptive capacities)?",
+    "type": "binary"
+  },
+  "adaptation_financing_gap": {
+    "text": "Does the article mention or imply that climate adaptation requires substantially increased financing?",
+    "type": "binary"
+  },
+  "adaptation_countries": {
+    "text": "Does the article mention or imply that richer nations should help poorer nations adapt to climate change?",
+    "type": "binary"
+  },
+  "framing_scientific_consensus": {
+    "text": "Does the article mention or imply that there is a strong scientific consensus on human-caused climate change?",
+    "type": "binary"
+  },
+  "framing_urgency": {
+    "text": "Does the article frame climate action as urgent or immediate?",
+    "type": "binary"
+  },
+  "framing_opportunity_growth": {
+    "text": "Does the article emphasize climate action as an opportunity for innovation or economic growth?",
+    "type": "binary"
+  },
+  "framing_climate_justice_equity": {
+    "text": "Does the article address climate justice and/or equity?",
+    "type": "binary"
+  },
+  "framing_action_political": {
+    "text": "Does the article suggest ways to become politically active (e.g., joining an activist or advocacy group)?",
+    "type": "binary"
+  },
+  "framing_action_costly": {
+    "text": "Does the article suggest that climate action is too expensive?",
+    "type": "binary"
+  },
+  "drivers_extreme_weather_event": {
+    "text": "Does the article mention an extreme weather event (e.g., heatwaves, hurricanes, droughts, floods, or wildfires)?",
+    "type": "binary"
+  },
+  "drivers_record_heat": {
+    "text": "Does the article mention record heat?",
+    "type": "binary"
+  },
+  "drivers_heating_law": {
+    "text": "Does the article mention a law about heating homes (i.e., das Heizungsgesetz)?",
+    "type": "binary"
+  },
+  "drivers_climate_activists": {
+    "text": "Does the article mention climate activists or their actions?",
+    "type": "binary"
+  },
+  "drivers_ipcc_report": {
+    "text": "Does the article mention a report of the IPCC?",
+    "type": "binary"
+  },
+  "drivers_cop_conference": {
+    "text": "Does the article mention a COP climate conference?",
+    "type": "binary"
+  },
+  "drivers_technological_advances": {
+    "text": "Does the article mention technological advances?",
+    "type": "binary"
+  },
+  "drivers_tipping_points": {
+    "text": "Does the article mention climate tipping points?",
+    "type": "binary"
+  },
+  "climate_scientist_quote": {
+    "text": "Does the article directly quote or interview a climate scientist?",
+    "type": "binary"
+  },
+  "intergenerational_justice": {
+    "text": "Does the article mention or imply intergenerational (in)justice?",
+    "type": "binary"
+  },
+  "climate_action_pro": {
+    "text": "Is the article supporting (more) climate action?",
+    "type": "binary"
+  },
+  "climate_action_critical": {
+    "text": "Is the article critical of (more) climate action?",
+    "type": "binary"
+  },
+  "climate_action_against": {
+    "text": "Is the article against (more) climate action?",
+    "type": "binary"
+  },
+  "summarize_hundred_words": {
+    "text": "Summarize the article in at most 100 words.",
+    "type": "binary"
+  },
+  "summarize_keywords_five": {
+    "text": "Give at most five keywords that describe the main topics of the article.",
+    "type": "binary"
+  },
+  "summarize_main_theme": {
+    "text": "Describe the main theme of the article in one word.",
+    "type": "binary"
+  }
+}
