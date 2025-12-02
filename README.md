@@ -1,6 +1,6 @@
 ## Reproducibility Archive 
 
-This archive provides the code to reproduce all results reported in the paper "XXX" (Preprint: YYY).
+This archive provides the code to reproduce all results reported in Dablander, F.<sup>&#11089;</sup>, Wimmer, S.<sup>&#11089;</sup>, & Haslbeck, J.M.B.<sup>&#11089;</sup> ([2025](https://osf.io/preprints/socarxiv/mv2q6_v1)). Mapping Climate Change Coverage: Causes, Consequences, and Solutions in German News Media, 2010–2024
 
 ### Prompting the AI
 
