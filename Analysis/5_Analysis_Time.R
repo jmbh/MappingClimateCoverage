@@ -156,12 +156,13 @@ PlotTS_agg <- function(show = "mean",
 # - aggregate over newspapers, separate for topics, with average and OR
 # - show COP and IPCC reports
 
+sc <- 1
 pdf(paste0("Figures/", ai_handle, "/Fig_TimePlots_2x2_", filter, ".pdf"), width=10*sc, height=8*sc)
 
 par(mfrow=c(2,2), mar=c(4,4.5,2,2))
 # Aggregate Plots
 PlotTS_agg(show="mean", main = "Mean over Items")
-PlotTS_agg(show="OR", legend=FALSE, main = "Logica OR over Items")
+PlotTS_agg(show="OR", legend=FALSE, main = "Logical OR over Items")
 
 ## --- COP ---
 # Compute year-averages
