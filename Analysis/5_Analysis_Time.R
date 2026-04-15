@@ -130,6 +130,7 @@ a_year_OR1 <- apply(a_year_OR, 1:2, mean)
 
 PlotTS_agg <- function(show = "mean", 
                        legend=TRUE, 
+                       legend.pos = "topright",
                        main="") {
   plot.new()
   ymax <- 100
@@ -142,7 +143,7 @@ PlotTS_agg <- function(show = "mean",
     if(show == "OR") lines(a_year_OR1[, j]*100, col=cols_t[j], lwd=2) # logical OR
   }
   abline(h=seq(0, ymax, length=11), lty=3, col="grey")
-  if(legend) legend("topright", legend=c("Causes", "Impacts", "Mitigation", "Adaptation"), 
+  if(legend) legend(legend.pos, legend=c("Causes", "Impacts", "Mitigation", "Adaptation"), 
                     text.col=cols_t, bty="n", cex=1.25)
   # title(ylab="Percentage")
   title(main = paste0(main), font.main=1)
@@ -157,12 +158,12 @@ PlotTS_agg <- function(show = "mean",
 # - show COP and IPCC reports
 
 sc <- 1
-pdf(paste0("Figures/", ai_handle, "/Fig_TimePlots_2x2_", filter, ".pdf"), width=10*sc, height=8*sc)
+pdf(paste0("Figures/", ai_handle, "/Fig_TimePlots_2x2_", filter, "LegRight.pdf"), width=10*sc, height=8*sc)
 
 par(mfrow=c(2,2), mar=c(4,4.5,2,2))
 # Aggregate Plots
 PlotTS_agg(show="mean", main = "Mean over Items")
-PlotTS_agg(show="OR", legend=FALSE, main = "Logical OR over Items")
+PlotTS_agg(show="OR", legend=TRUE, main = "Logical OR over Items", legend.pos="topright")
 
 ## --- COP ---
 # Compute year-averages
