@@ -28,9 +28,21 @@ library(RColorBrewer)
 source("Helpers.R")
 source("3_Plotting_Meta.R") # For labels, colors, item selection, etc
 
+
+# --------------------------------------------
+# --------- Load Packages --------------------
+# --------------------------------------------
+
+# Old
+df_wide <- read.csv('Files/human_ai_validation_combined.csv')
+
+
 # --------------------------------------------
 # ------ Calculate Validation Metrics --------
 # --------------------------------------------
+
+# @Fabian: This needs to be adapted by you
+
 dice <- function(x, y) {
   1 - proxy::dist(rbind(x, y), method = 'Dice')[1]
 }
@@ -62,7 +74,11 @@ df_dice <- df_sum %>%
     question, dice_pooled_gpt_updated,
     edice_pooled_gpt_updated, accuracy_pooled_gpt_updated
   ) %>% 
-  dplyr::mutate(across(everything(), ~replace_na(., -0.50)))
+  mutate(
+    dice_pooled_gpt_updated     = tidyr::replace_na(dice_pooled_gpt_updated, -0.5),
+    edice_pooled_gpt_updated    = tidyr::replace_na(edice_pooled_gpt_updated, -0.5),
+    accuracy_pooled_gpt_updated = tidyr::replace_na(accuracy_pooled_gpt_updated, -0.5)
+  )
 
 df_dice_long <- df_dice %>%
   pivot_longer(
@@ -94,6 +110,11 @@ valdata <- df_dice_long %>%
 # valdata <- read.csv(paste0(basedir, "validation_mistral_final.csv"))
 # Eval(valdata)
 
+# New
+valdata <- read.csv('Files/valdata.csv')
+
+head(valdata)
+
 # Add expected accuracy
 valdata$exp_accuracy <- valdata$baserate * valdata$baserate_ai + (1 - valdata$baserate) * (1 - valdata$baserate_ai)
 
@@ -116,9 +137,13 @@ for(i in 1:4) {
   ord <- order(factor(vec, levels = l_labels_P[[i]]))
   acc_dice <- t(as.matrix(valdata[valdata$question %in% l_labels_P[[i]], c(4,2)]))[, ord]
   exp_dice <- t(as.matrix(valdata[valdata$question %in% l_labels_P[[i]], 3]))[, ord]
-  exp_acc <- t(as.matrix(valdata[valdata$question %in% l_labels_P[[i]], 7]))[, ord]
+  exp_acc <- t(as.matrix(valdata[valdata$question %in% l_labels_P[[i]], 12]))[, ord]
+  # CIs
+  acc_CI <- t(as.matrix(valdata[valdata$question %in% l_labels_P[[i]], c(7:8)]))[, ord]
+  dice_CI <- t(as.matrix(valdata[valdata$question %in% l_labels_P[[i]], c(5:6)]))[, ord]
   
   # --- Plotting ---
+  v_names <- c("Causes", "Impacts", "Mitigation", "Adaptation")
   par(mar=c(10,4,3,1))
   barplot(acc_dice, beside=TRUE, las=2, ylim=c(0, 1),  # 0.65
           col=cols[1:2], xaxt = "n")
@@ -136,6 +161,22 @@ for(i in 1:4) {
   points(bp[1, ], exp_acc, cex=1.5, pch=19, col=cols[1])
   axis(2, las=2)
   axis(1, at=colMeans(bp), labels=l_indP_lab[[i]], las=2, cex.axis=0.9)
+  
+  # Add Error bars
+   for(j in 1:ncol(acc_dice)) {
+     # Accuracy
+     xs <- 0.1
+     segments(bp[1, j], acc_CI[1, j], bp[1, j], acc_CI[2, j], col="black", lwd=2)
+     segments(bp[1, j]-xs, acc_CI[1, j], bp[1, j]+xs, acc_CI[1, j], col="black", lwd=2)
+     segments(bp[1, j]-xs, acc_CI[2, j], bp[1, j]+xs, acc_CI[2, j], col="black", lwd=2)
+     # Dice
+     segments(bp[2, j], dice_CI[1, j], bp[2, j], dice_CI[2, j], col="black", lwd=2)
+     segments(bp[2, j]-xs, dice_CI[1, j], bp[2, j]+xs, dice_CI[1, j], col="black", lwd=2)
+     segments(bp[2, j]-xs, dice_CI[2, j], bp[2, j]+xs, dice_CI[2, j], col="black", lwd=2)
+     
+     # segments(bp[2, j], acc_dice[2, j], bp[2, j], exp_dice[j], col=cols[2], lwd=2)
+   }
+  
   
   if(i==1) legend(0, 1.05, legend=c("Accuracy", "Dice Similarity"), text.col=cols[1:2], bty="n", cex=1.25)
   # title(main=v_cats[i], font.main=1, cex.main=1.5, line=0.5)
