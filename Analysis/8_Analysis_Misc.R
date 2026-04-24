@@ -24,8 +24,11 @@ library(RColorBrewer)
 
 library(brms)
 library(marginaleffects)
+library(lme4)
+
 
 library(xtable)
+
 
 
 source("Helpers.R") 
@@ -70,32 +73,58 @@ for(i in 1:7) {
   m_counts[, i] <- colSums(data_bin_ss_n[, unlist(l_labels_P)])
 }
 
+
 # --------------------------------------------
-# --------- Variance Decomposition -----------
+# --------- Predictor Importance -------------
 # --------------------------------------------
 
+# ---- Prepare DF -----
 # Subset to key questions
 data_bin_ss_pr <- data_bin_ss[, c("url", "newspaper", "year", "wordcount", unlist(l_labels_P))]
-
 # Turn into Long-Format
 data_bin_ss_pr_long <- reshape2::melt(data_bin_ss_pr, id.vars=c("url", "newspaper", "year", "wordcount"), measure.vars=unlist(l_labels_P), variable.name="question", value.name="response")
-
 # Add category
 category <- rep(NA, nrow(data_bin_ss_pr_long))
 category[data_bin_ss_pr_long$question %in% l_labels_P[[1]]] <- "Causes"
 category[data_bin_ss_pr_long$question %in% l_labels_P[[2]]] <- "Impacts"
 category[data_bin_ss_pr_long$question %in% l_labels_P[[3]]] <- "Mitigation"
 category[data_bin_ss_pr_long$question %in% l_labels_P[[4]]] <- "Adaptation"
+data_bin_ss_pr_long$category <- category
+# Turn predictors into factors
+data_bin_ss_pr_long$newspaper <- factor(data_bin_ss_pr_long$newspaper)
+data_bin_ss_pr_long$year <- factor(data_bin_ss_pr_long$year)
 
+# Check
+head(data_bin_ss_pr_long)
+dim(data_bin_ss_pr_long)
+table(data_bin_ss_pr_long$newspaper)
+table(data_bin_ss_pr_long$year)
+table(data_bin_ss_pr_long$category)
 
-# ----- Anova -----
-data_bin_ss_pr_long$year <- as.factor(data_bin_ss_pr_long$year)
-lm_obj <- lm(response ~ newspaper + category + year, data=data_bin_ss_pr_long)
-lm_obj
-anov_obj <- anova(lm_obj)
-anov_obj
+# ---- Fit Mixed Model -----
+m_full <- glmer(
+  response ~ newspaper + category + year + (1 | url),
+  data = data_bin_ss_pr_long,
+  family = binomial(link = "logit"),
+  control = glmerControl(optimizer = "bobyqa"),  # cut some corners to make this run in a reasonable time
+  nAGQ = 0 # same here
+)
+summary(m_full)
 
-# Note: I made the latex table in the paper with GPT5
+# ---- Look at Reduced Models -----
+m_no_newspaper <- update(m_full, . ~ . - newspaper)
+m_no_category  <- update(m_full, . ~ . - category)
+m_no_year      <- update(m_full, . ~ . - year)
+
+# ---- Likelihood Ratio Tests -----
+rt_newspaper <- anova(m_no_newspaper, m_full, test = "Chisq")
+lrt_category     <- anova(m_no_category, m_full, test = "Chisq")
+lrt_year      <- anova(m_no_year,      m_full, test = "Chisq")
+
+lrt_newspaper # Delta Deviance: 958 higher = model gets worse more when dropping set of predictors
+lrt_category # 18905
+lrt_year # 317.95
+
 
 # --------------------------------------------
 # --------- Type of Articles vs. Newspaper ---
