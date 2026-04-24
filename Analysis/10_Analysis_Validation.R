@@ -53,34 +53,58 @@ df_sum <- df_wide %>%
     dice_pooled_gpt_updated = dice(Pooled_updated, gpt_bin),
     edice_pooled_gpt_updated = edice(Pooled_updated, gpt_bin)
   ) %>%
+  dplyr::filter(question %in% selected_questions) %>% 
   dplyr::mutate(
     question = factor(question, levels = selected_questions)
   )
 
+
+set.seed(1)
+nr_boot <- 1000
+
+# Bootstrap estimates
+boot_res <- lapply(seq_len(nr_boot), function(i) {
+  df_wide %>%
+    dplyr::filter(question %in% selected_questions) %>%
+    dplyr::group_by(question) %>%
+    dplyr::slice_sample(n = nrow(.), replace = TRUE) %>%
+    dplyr::summarize(
+      accuracy = mean(Pooled_updated == gpt_bin, na.rm = TRUE),
+      dice = dice(Pooled_updated, gpt_bin),
+      edice = edice(Pooled_updated, gpt_bin),
+      .groups = "drop"
+    ) %>%
+    dplyr::mutate(iter = i)
+})
+
+# Bootstrap percentile intervals
+boot_ci <- dplyr::bind_rows(boot_res) %>%
+  dplyr::group_by(question) %>%
+  dplyr::summarize(
+    accuracy_lo  = quantile(accuracy, 0.025, na.rm = TRUE),
+    accuracy_hi = quantile(accuracy, 0.975, na.rm = TRUE),
+    dice_lo      = quantile(dice, 0.025, na.rm = TRUE),
+    dice_hi     = quantile(dice, 0.975, na.rm = TRUE),
+    edice_lo     = quantile(edice, 0.025, na.rm = TRUE),
+    edice_hi    = quantile(edice, 0.975, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+df_sum <- df_sum %>%
+  dplyr::left_join(boot_ci, by = "question")
+
 df_dice <- df_sum %>% 
   select(
     question, dice_pooled_gpt_updated,
-    edice_pooled_gpt_updated, accuracy_pooled_gpt_updated
-  ) %>% 
-  dplyr::mutate(across(everything(), ~replace_na(., -0.50)))
-
-df_dice_long <- df_dice %>%
-  pivot_longer(
-    cols = -question,
-    names_to = c("measure", "pair"),
-    names_pattern = "(dice|edice|accuracy)_(.+)",
-    values_to = "value"
+    edice_pooled_gpt_updated, accuracy_pooled_gpt_updated,
+    dice_lo, dice_hi, accuracy_lo, accuracy_hi
   ) %>% 
   dplyr::mutate(
+    across(everything(), ~replace_na(., -0.50)),
     category = sapply(strsplit(as.character(question), '_'), function(x) {
       x[1]
     })
-  )
-
-valdata <- df_dice_long %>% 
-  filter(pair == 'pooled_gpt_updated') %>% 
-  select(-pair, -category) %>% 
-  pivot_wider(names_from = measure, values_from = value) %>% 
+  ) %>% 
   left_join(
     df_wide %>% 
       dplyr::group_by(question) %>% 
@@ -91,10 +115,13 @@ valdata <- df_dice_long %>%
     by = 'question'
   )
 
-# valdata <- read.csv(paste0(basedir, "validation_mistral_final.csv"))
-# Eval(valdata)
+colnames(df_dice) <- c(
+  'question', 'dice', 'edice', 'accuracy', 'dice_lo', 'dice_hi',
+  'accuracy_lo', 'accuracy_hi', 'category', 'baserate', 'baserate_ai'
+)
 
 # Add expected accuracy
+valdata <- df_dice
 valdata$exp_accuracy <- valdata$baserate * valdata$baserate_ai + (1 - valdata$baserate) * (1 - valdata$baserate_ai)
 
 
